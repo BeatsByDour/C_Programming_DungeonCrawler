@@ -4,10 +4,10 @@
 
 int main()
 {
-
+   
 
     printf("hello DungeonCrawler \n");
 
-    createDungeon();
+    DungeonRooms* kamers = CreateDungeon();
     return 0;
 }
