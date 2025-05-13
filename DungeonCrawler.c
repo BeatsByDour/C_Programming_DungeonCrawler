@@ -36,6 +36,19 @@ switch (DungeonSize)
 }       
 }
 
+Player InitilizePlayer()
+{
+ Player InitPlayer;
+
+ InitPlayer.maxHp = 30;
+ InitPlayer.currentHp = 30;
+ InitPlayer.damageValue = 5;
+ InitPlayer.CurrentRoom = calloc(1,sizeof(DungeonRooms));
+ 
+ return InitPlayer;
+    
+}
+
 DungeonRooms*  CreateRooms( int amountOfRooms)
 {
     srand(time(NULL));
