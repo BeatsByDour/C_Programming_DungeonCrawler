@@ -36,6 +36,7 @@ switch (DungeonSize)
 }       
 }
 
+// initialized the player char
 Player InitilizePlayer()
 {
  Player InitPlayer;
@@ -49,51 +50,79 @@ Player InitilizePlayer()
     
 }
 
-DungeonRooms*  CreateRooms( int amountOfRooms)
-{
+DungeonRooms* CreateRooms(int amountOfRooms) {
     srand(time(NULL));
-DungeonRooms* kamers = (DungeonRooms *)calloc(amountOfRooms , amountOfRooms * sizeof(DungeonRooms));
-int tempTreasure = 0;
-for (int i = 0; i < amountOfRooms; i++)
-{
-  
-   int  Randnummer = 0;
-   if(tempTreasure == 0&& i == amountOfRooms)
-   {
-    Randnummer = 6;
-   }else if(tempTreasure == 0 )
-   {
-    Randnummer = rand() % 7;
-   }
-   else {
-    Randnummer = rand() % 6;
-   }
-    kamers[i].RoomNumber = i+1;
-    kamers[i].Content = Randnummer; // number between 1 and 6
+    DungeonRooms* kamers = (DungeonRooms*)calloc(amountOfRooms, sizeof(DungeonRooms));
+    int tempTreasure = 0;
 
+    // Initialize rooms
     for (int i = 0; i < amountOfRooms; i++) {
-    for (int d = 0; d < 4; d++) {
-        kamers[i].doors[d] = NULL;
+        int Randnummer = 0;
+        if (tempTreasure == 0 && i == amountOfRooms - 1) {
+            Randnummer = 6; // Force treasure in last room if none yet
+        } else if (tempTreasure == 0) {
+            Randnummer = rand() % 7; // 0-6 (6 = treasure)
+        } else {
+            Randnummer = rand() % 6; // 0-5 (no treasure)
+        }
+
+        kamers[i].RoomNumber = i + 1;
+        kamers[i].Content = Randnummer;
+        
+        // Initialize all doors to NULL
+        for (int d = 0; d < 4; d++) {
+            kamers[i].doors[d] = NULL;
+        }
+
+        if (Randnummer == 6) tempTreasure++;
     }
+
+   // Connect doors (with variable connections per room)
+    for (int i = 0; i < amountOfRooms; i++) {
+        // Randomly decide how many connections this room should have (2-4)
+        int targetConnections = 2 + rand() % 3; // Random between 2 and 4
+
+        // Only connect if current connections < target
+        while (CountConnections(&kamers[i]) < targetConnections) {
+            int Failsafe = 0;
+            int SelectedRoom = rand() % amountOfRooms;
+
+            // Avoid invalid connections:
+            // - Selected room is full (>=4 connections)
+            // - Selected room is itself
+            // - Already connected
+            while (CountConnections(&kamers[SelectedRoom]) >= 4 || 
+                   &kamers[SelectedRoom] == &kamers[i] || 
+                   AreRoomsConnected(&kamers[SelectedRoom], &kamers[i])) {
+                SelectedRoom = rand() % amountOfRooms;
+                Failsafe++;
+                if (Failsafe > 20) break; // Prevent infinite loops
+            }
+
+            if (Failsafe <= 20) { // Only connect if a valid room was found
+                ConnectRooms(&kamers[i], &kamers[SelectedRoom]);
+            } else {
+                break; // No valid connections left
+            }
+        }
     
-}
-    if(Randnummer == 6){
-        tempTreasure++;
+
+        // Safe print (check for NULL doors)
+        printf("Room %i, Content: %i, Connections: ", kamers[i].RoomNumber, kamers[i].Content);
+        for (int d = 0; d < 4; d++) {
+            if (kamers[i].doors[d] != NULL) {
+                printf("%d) %i ", d+1, kamers[i].doors[d]->RoomNumber);
+            } else {
+                printf("%d) NULL ", d+1);
+            }
+        }
+        printf("\n");
     }
-    printf(" this is room number %i with this content %i and these room connections 1) %i 2) %i 3) %i 4) %i \n", kamers[i].RoomNumber,kamers[i].Content,kamers[i].doors[0]->RoomNumber,kamers[i].doors[1]->RoomNumber,kamers[i].doors[2]->RoomNumber,kamers[i].doors[3]->RoomNumber);
 
-
-    // ConnentDoors
-    for (int i = 0; i < amountOfRooms; i++)
-    {
-       
-    }
-    
+    return kamers;
 }
 
-return kamers;
-}
-
+// count the amount of rooms that are connected to this room
 int CountConnections(DungeonRooms* room)
  {
     int count = 0;
@@ -103,19 +132,9 @@ int CountConnections(DungeonRooms* room)
     return count;
 }
 
-// link to rooms together
-
-void LinkRooms()
-{
-
-    // go through the list to check if rooms are already connected to the room and connect them to this room aswell
-
- // link the rooms together with linked lists, create doors to the others rooms; 
-}
-
-
 // Helper function to connect two rooms bidirectionally
-void ConnectRooms(DungeonRooms* a, DungeonRooms* b) {
+void ConnectRooms(DungeonRooms* a, DungeonRooms* b) 
+{
     // Connect a to b
     for (int d = 0; d < 4; d++) {
         if (a->doors[d] == NULL) {

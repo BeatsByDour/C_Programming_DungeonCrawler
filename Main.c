@@ -1,6 +1,6 @@
 // gcc main.c -o main.exe
 #include "DungeonCrawler.c"
-#include "Encounter.c"
+//#include "Encounter.c"
 #include <stdio.h>
 
 int main()
@@ -20,8 +20,8 @@ int main()
 while (wincon == 0)
 {
 
-    printf("Hello Adventurer What is the next room you want to enter? ")
-
+    printf("Hello Adventurer What is the next room you want to enter? ");
+    
    // create while loop for player to go to the next dungeon
 
     // in the loop the player can choose to save/ load a save file or go to another room 
@@ -33,6 +33,7 @@ while (wincon == 0)
     // if the player dies, free the memory of the dungeon and player and give a choice to restart or quit the game
 
     // at the very start the player can choose to load a save file or start a new game. 
+    getchar();
 }
 
    

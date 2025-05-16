@@ -11,20 +11,40 @@ struct DungeonRooms* doors[4];
 
 }DungeonRooms;
 
-// function definitions
-
-DungeonRooms* CreateDungeon();
-DungeonRooms* CreateRooms(int amountOfRooms);
-void LinkRooms();
-/// @brief Function to check the amount of rooms that are connected to the given room
-/// @param room room that will be checked
-/// @return integer ranging from 0 to 4 
-int CountConnections(DungeonRooms* room);
-// struct creation
-
 // add payer struct 
 typedef struct Player{
     int maxHp,currentHp;
     int damageValue;
     struct DungeonRooms* CurrentRoom;
     }Player;
+
+// function definitions
+
+
+/// @brief This fucntion initializes the player and give the player values
+/// @return it returns a player struct that is filled with correct values
+Player InitilizePlayer();
+/// @brief function that is used for the player to tell how big the dungeon will be 
+/// @return it returns an array of rooms that are in the dungeon
+DungeonRooms* CreateDungeon();
+/// @brief  this function creates the dungeon with rooms in it and links all rooms together
+/// @param amountOfRooms the amount of rooms that the player has chosen 
+/// @return  it returns an array of rooms that are in the dungeon
+DungeonRooms* CreateRooms(int amountOfRooms);
+void LinkRooms();
+/// @brief This function checks if the rooms are already connected
+/// @param a  The first room 
+/// @param b  the second room
+/// @return  the is will return a 1 if the rooms are connected and a 0 if they aren't
+int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b);
+/// @brief This function connects two rooms together 
+/// @param a the first room that will be connected
+/// @param b the second room that will be connected
+void ConnectRooms(DungeonRooms* a, DungeonRooms* b);
+/// @brief Function to check the amount of rooms that are connected to the given room
+/// @param room room that will be checked
+/// @return integer ranging from 0 to 4 
+int CountConnections(DungeonRooms* room);
+// struct creation
+
+
