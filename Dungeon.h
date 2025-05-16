@@ -22,3 +22,9 @@ void LinkRooms();
 int CountConnections(DungeonRooms* room);
 // struct creation
 
+// add payer struct 
+typedef struct Player{
+    int maxHp,currentHp;
+    int damageValue;
+    struct DungeonRooms* CurrentRoom;
+    }Player;
