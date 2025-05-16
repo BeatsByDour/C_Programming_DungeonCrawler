@@ -70,29 +70,40 @@ for (int i = 0; i < amountOfRooms; i++)
    }
     kamers[i].RoomNumber = i+1;
     kamers[i].Content = Randnummer; // number between 1 and 6
-    kamers[i].doorOne = calloc(1,sizeof(DungeonRooms));
-    kamers[i].doorTwo = calloc(1,sizeof(DungeonRooms));
-    kamers[i].doorThree = calloc(1,sizeof(DungeonRooms));
-    kamers[i].doorFour = calloc(1,sizeof(DungeonRooms));
+
+    for (int i = 0; i < amountOfRooms; i++) {
+    for (int d = 0; d < 4; d++) {
+        kamers[i].doors[d] = NULL;
+    }
+    
+}
     if(Randnummer == 6){
         tempTreasure++;
     }
-    printf(" this is room number %i with this content %i and these room connections 1) %i 2) %i 3) %i 4) %i \n", kamers[i].RoomNumber,kamers[i].Content,kamers[i].doorOne->RoomNumber,kamers[i].doorTwo->RoomNumber,kamers[i].doorThree->RoomNumber,kamers[i].doorFour->RoomNumber);
+    printf(" this is room number %i with this content %i and these room connections 1) %i 2) %i 3) %i 4) %i \n", kamers[i].RoomNumber,kamers[i].Content,kamers[i].doors[0]->RoomNumber,kamers[i].doors[1]->RoomNumber,kamers[i].doors[2]->RoomNumber,kamers[i].doors[3]->RoomNumber);
 
+
+    // ConnentDoors
+    for (int i = 0; i < amountOfRooms; i++)
+    {
+       
+    }
+    
 }
 
 return kamers;
 }
 
-  
-    
+int CountConnections(DungeonRooms* room)
+ {
+    int count = 0;
+    for (int d = 0; d < 4; d++) {
+        if (room->doors[d] != NULL) count++;
+    }
+    return count;
+}
 
-// create the amount of rooms for the dungeon
-
-
-
-
-
+// link to rooms together
 
 void LinkRooms()
 {
@@ -103,7 +114,31 @@ void LinkRooms()
 }
 
 
-
+// Helper function to connect two rooms bidirectionally
+void ConnectRooms(DungeonRooms* a, DungeonRooms* b) {
+    // Connect a to b
+    for (int d = 0; d < 4; d++) {
+        if (a->doors[d] == NULL) {
+            a->doors[d] = b;
+            break;
+        }
+    }
+    
+    // Connect b to a
+    for (int d = 0; d < 4; d++) {
+        if (b->doors[d] == NULL) {
+            b->doors[d] = a;
+            break;
+        }
+    }
+}
+// Helper function to check if two rooms are already connected
+int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b) {
+    for (int d = 0; d < 4; d++) {
+        if (a->doors[d] == b) return 1;
+    }
+    return 0;
+}
 
 
 
