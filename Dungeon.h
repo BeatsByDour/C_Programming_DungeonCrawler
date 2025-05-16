@@ -21,6 +21,11 @@ typedef struct Player{
 // function definitions
 
 
+/// @brief 
+/// @param RoomToGo 
+/// @param DungeonRooms 
+/// @param adventurer 
+void EnterNewRoom(int RoomToGo,DungeonRooms* DungeonRooms,Player* adventurer );
 /// @brief This fucntion initializes the player and give the player values
 /// @return it returns a player struct that is filled with correct values
 Player InitilizePlayer();

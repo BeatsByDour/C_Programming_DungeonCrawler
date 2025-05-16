@@ -20,7 +20,21 @@ int main()
 while (wincon == 0)
 {
 
-    printf("Hello Adventurer What is the next room you want to enter? ");
+    switch (CountConnections(Adventurer.CurrentRoom))
+    {
+    case 2:
+         printf("Hello Adventurer, you are currently in room %i .\nWhere do you want to go?\nThis room has doors: \n(1) room %i \n(2) room %i!\n", Adventurer.CurrentRoom->RoomNumber,Adventurer.CurrentRoom->doors[0]->RoomNumber,Adventurer.CurrentRoom->doors[1]->RoomNumber);
+        break;
+         case 3:
+         printf("Hello Adventurer, you are currently in room %i .\nWhere do you want to go?\nThis room has doors: \n(1) room %i \n(2) room %i  \n(3) room %i!\n", Adventurer.CurrentRoom->RoomNumber,Adventurer.CurrentRoom->doors[0]->RoomNumber,Adventurer.CurrentRoom->doors[1]->RoomNumber,Adventurer.CurrentRoom->doors[2]->RoomNumber);
+        break;
+         case 4:
+         printf("Hello Adventurer, you are currently in room %i .\nWhere do you want to go?\nThis room has doors: \n(1) room %i \n(2) room %i \n(3) room %i \n(4) room %i!\n", Adventurer.CurrentRoom->RoomNumber,Adventurer.CurrentRoom->doors[0]->RoomNumber,Adventurer.CurrentRoom->doors[1]->RoomNumber,Adventurer.CurrentRoom->doors[2]->RoomNumber,Adventurer.CurrentRoom->doors[3]->RoomNumber);
+        break;
+    }
+    int nextRoom;
+    scanf(" %i", &nextRoom -1);
+    EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
     
    // create while loop for player to go to the next dungeon
 

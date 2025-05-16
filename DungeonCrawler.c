@@ -50,6 +50,14 @@ Player InitilizePlayer()
     
 }
 
+void EnterNewRoom(int RoomToGo,DungeonRooms* DungeonRooms,Player* adventurer )
+{
+adventurer->CurrentRoom = DungeonRooms->doors[RoomToGo];
+printf("You have entered room %i\n",adventurer->CurrentRoom->RoomNumber);
+}
+
+#pragma region Dungeon Generation
+
 DungeonRooms* CreateRooms(int amountOfRooms) {
     srand(time(NULL));
     DungeonRooms* kamers = (DungeonRooms*)calloc(amountOfRooms, sizeof(DungeonRooms));
@@ -79,7 +87,7 @@ DungeonRooms* CreateRooms(int amountOfRooms) {
 
    // Connect doors (with variable connections per room)
     for (int i = 0; i < amountOfRooms; i++) {
-        // Randomly decide how many connections this room should have (2-4)
+        // Randomly decide how many connections this room should have (1-4)
         int targetConnections = 2 + rand() % 3; // Random between 2 and 4
 
         // Only connect if current connections < target
@@ -159,5 +167,5 @@ int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b) {
     return 0;
 }
 
-
+#pragma endregion
 
