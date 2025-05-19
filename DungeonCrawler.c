@@ -50,10 +50,23 @@ Player InitilizePlayer()
     
 }
 
-void EnterNewRoom(int RoomToGo,DungeonRooms* DungeonRooms,Player* adventurer )
+void EnterNewRoom(int RoomToGo,DungeonRooms* currentRoom,Player* adventurer )
 {
-adventurer->CurrentRoom = DungeonRooms->doors[RoomToGo];
-printf("You have entered room %i\n",adventurer->CurrentRoom->RoomNumber);
+    // Check if doorIndex is valid (0-3)
+    if (RoomToGo < 0 || RoomToGo >= 4) {
+        printf("Invalid door selection! Choose between 0 and 3.\n");
+        return;
+    }
+
+    // Check if the door exists (not NULL)
+    if (currentRoom->doors[RoomToGo] == NULL) {
+        printf("There is no door in that direction!\n");
+        return;
+    }
+
+    // Update player's current room
+    adventurer->CurrentRoom = currentRoom->doors[RoomToGo];
+    printf("You entered Room %d.\n", adventurer->CurrentRoom->RoomNumber);
 }
 
 #pragma region Dungeon Generation

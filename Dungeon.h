@@ -36,7 +36,6 @@ DungeonRooms* CreateDungeon();
 /// @param amountOfRooms the amount of rooms that the player has chosen 
 /// @return  it returns an array of rooms that are in the dungeon
 DungeonRooms* CreateRooms(int amountOfRooms);
-void LinkRooms();
 /// @brief This function checks if the rooms are already connected
 /// @param a  The first room 
 /// @param b  the second room

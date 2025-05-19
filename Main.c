@@ -20,6 +20,8 @@ int main()
 while (wincon == 0)
 {
 
+    int temp = CountConnections(Adventurer.CurrentRoom);
+    printf(" %i", temp);
     switch (CountConnections(Adventurer.CurrentRoom))
     {
     case 2:
@@ -32,7 +34,7 @@ while (wincon == 0)
          printf("Hello Adventurer, you are currently in room %i .\nWhere do you want to go?\nThis room has doors: \n(1) room %i \n(2) room %i \n(3) room %i \n(4) room %i!\n", Adventurer.CurrentRoom->RoomNumber,Adventurer.CurrentRoom->doors[0]->RoomNumber,Adventurer.CurrentRoom->doors[1]->RoomNumber,Adventurer.CurrentRoom->doors[2]->RoomNumber,Adventurer.CurrentRoom->doors[3]->RoomNumber);
         break;
     }
-    int nextRoom;
+    int nextRoom = 0;
     scanf(" %i", &nextRoom -1);
     EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
     
