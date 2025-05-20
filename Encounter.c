@@ -1,59 +1,74 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include "Dungeon.h"
 
-int Encounter(int contentID) // need to add player struct as a parameter
+int Encounter(int contentID, Player* Adventurer) 
 {
 
-    int victorycondition = 0;
+   printf("I need to know what the conentID is so give it: %i\n",contentID);
     switch (contentID)
     {
  
         case 1:
         // gain HP
-        BuffEncounter(0);
+        printf("You found An alter with a Buff!!! Yippie\n");
+        BuffEncounter(0,Adventurer);
         break;
         case 2:
         // gain DMG
-        BuffEncounter(1);
+        printf("You found An alter with a Buff!!! Yippie\n");
+        BuffEncounter(1,Adventurer);
         break;
         case 3:
         // fight Goblin
-        FightEncounter(0);
+        printf("You found A monster in this room!!! WHAAAA\n");
+        return FightEncounter(0,Adventurer);
         break;
         case 4:
         // fight ORC
-        FightEncounter(1);
+        printf("You found A monster in this room!!! WHAAAA\n");
+        return FightEncounter(1,Adventurer);
         break;
         case 6:
         // treasure / victory
-        victorycondition = VictoryCondition();
+        printf("You found the treasure Yippie!!! YAAAHOOOOO\n");
+        return  VictoryCondition();
         break;
     default:
+        printf("There is nothing in this room!!! WOMP WOMP\n");
         break;
     }
-    return victorycondition;
+    return 0;
 }
 
-void FightEncounter(int enemyID)
+int FightEncounter(int enemyID, Player* Adventurer)
 {
     srand(time(NULL));
 if(enemyID == 0)
 {
-
-    FightOppenent(10,2,"Goblin");
     // fight Goblin
+   return FightOppenent(10,2,"Goblin",Adventurer);
 }else{
-    FightOppenent(18,6,"ORC");
     // fight orc
+   return FightOppenent(18,6,"ORC",Adventurer);
 }
 }
-void BuffEncounter(int BuffId)
+void BuffEncounter(int BuffId, Player* Adventurer)
 {
 if(BuffId == 0){
-    // gain HP
+    printf("The alter Has regenerated your hp!!! Yippie\n");
+    if(Adventurer->currentHp + 15 >= Adventurer->maxHp+5){
+        Adventurer->maxHp = Adventurer->maxHp + 5;
+        Adventurer->currentHp = Adventurer->maxHp;
+    }else{
+        Adventurer->maxHp =+ 5;
+        Adventurer->currentHp =+ 15;
+    }
+
 }else {
-    // Gain Dmg
+    printf("The alter Has given you more strength!!! Yippie\n");
+   Adventurer->damageValue = Adventurer->damageValue + 2;
 }
 }
 int VictoryCondition()
@@ -61,41 +76,43 @@ int VictoryCondition()
  return 1;
 }
 
-FightOppenent(int hp,int dmg, char oppName) // need to add the player stuct ass a parameter
+    int FightOppenent(int hp,int dmg, char oppName[10], Player* Adventurer) // need to add the player stuct ass a parameter
 {
-
-    while (hp != 0 ) // need to player hp as a variable 
+    printf("you are fighting %s, the opponent has %i hp and deals %i damage\n", oppName,hp,dmg);
+    while (hp >= 0  && Adventurer->currentHp >=0) // need to player hp as a variable 
     {
-        int RandNummer = rand() % 17;
+        int RandNummer = rand() % 16;
         unsigned int count = 0;
+      
         while (RandNummer) {
+            sleep(1);
             int oldcount = count;
             count += RandNummer & 1;
             RandNummer >>= 1;
-
+            //_sleep(1);
             if(count == oldcount)
             {
-                // oppAttack
-                void OpponentAttack();
+               
+                Adventurer->currentHp = Adventurer->currentHp - dmg;
+                printf("You got hit for %i damage and this is your remaining HP: %i\t\t ( %i )  \n",dmg,Adventurer->currentHp,RandNummer);
+
             }else{
-                //player attack
-                void playerAttack();
-                
+               
+                hp = hp - Adventurer->damageValue;  
+                printf("You hit the %s for %i damage and this is their remaining HP: %i\t\t ( %i )  \n", oppName,Adventurer->damageValue,hp,RandNummer);
             }
         }
-        return count;
+        
     }
-    
-    printf(" you are fighting %s, the opponent has %i hp and deals %i damage\n", oppName,hp,dmg);
+    if(Adventurer->currentHp <= 0 )
+    {
+        printf("OOH NOO You DIED WOMP WOMP\n");
+        return 2;
 
-    
-}
-
-void playerAttack()
-{
-
-}
-void OpponentAttack()
-{
+    }else
+    {
+        printf("Well done Adventurer You WON, HeHe, on to the next room!!!\n");
+        return 0;
+    }
 
 }

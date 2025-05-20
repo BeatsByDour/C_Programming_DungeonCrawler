@@ -1,11 +1,12 @@
 // gcc main.c -o main.exe
 #include "DungeonCrawler.c"
-//#include "Encounter.c"
 #include <stdio.h>
 
+#define Clear() printf("\e[1;1H\e[2J")
 int main()
 {
    int wincon = 0;
+   int loseCon = 0;
    
 
     printf("hello DungeonCrawler \n");
@@ -17,11 +18,12 @@ int main()
 
 
     // create player 
-while (wincon == 0)
+while (wincon == 0 && loseCon == 0)
 {
-
-    int temp = CountConnections(Adventurer.CurrentRoom);
-    printf(" %i", temp);
+    Adventurer.CurrentRoom->Isvisited = 1;
+   // Clear();
+    printf("You have %i / %i HP\nYou Deal %i Damage\n You are in Room %i\n",Adventurer.currentHp,Adventurer.maxHp,Adventurer.damageValue,Adventurer.CurrentRoom->RoomNumber);
+    
     switch (CountConnections(Adventurer.CurrentRoom))
     {
     case 2:
@@ -35,8 +37,21 @@ while (wincon == 0)
         break;
     }
     int nextRoom = 0;
-    scanf(" %i", &nextRoom -1);
-    EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
+    int ConCheck = 0;
+    scanf(" %i", &nextRoom);
+    ConCheck = EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
+
+    switch (ConCheck)
+    {
+    case 1:
+       wincon =1;
+            break;
+    case 2:
+        loseCon = 1;
+            break;
+    default:
+        break;
+    }
     
    // create while loop for player to go to the next dungeon
 
@@ -52,6 +67,14 @@ while (wincon == 0)
     getchar();
 }
 
+if(loseCon == 1)
+{
+    printf(" player died whewhewhe  womp womp unlucky\n");
+}
+if(wincon == 1)
+{
+    printf(" player lived to tell the tale Yippie\n");
+}
    
     return 0;
 }

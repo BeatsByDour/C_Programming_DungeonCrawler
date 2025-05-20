@@ -5,6 +5,7 @@
 #include <time.h>
 #include "Dungeon.h"
 #include "print_Storage.c"
+#include "Encounter.c"
 
 DungeonRooms* CreateDungeon()
 {
@@ -44,29 +45,43 @@ Player InitilizePlayer()
  InitPlayer.maxHp = 30;
  InitPlayer.currentHp = 30;
  InitPlayer.damageValue = 5;
- InitPlayer.CurrentRoom = calloc(1,sizeof(DungeonRooms));
+ InitPlayer.CurrentRoom = (DungeonRooms*)calloc(1,sizeof(DungeonRooms));
  
  return InitPlayer;
     
 }
 
-void EnterNewRoom(int RoomToGo,DungeonRooms* currentRoom,Player* adventurer )
+int EnterNewRoom(int RoomToGo,DungeonRooms* currentRoom,Player* adventurer )
 {
-    // Check if doorIndex is valid (0-3)
+    printf(" selected room is %i \n", RoomToGo);
+    RoomToGo--;
+    // Check if doorIndex is valid (1-4)
     if (RoomToGo < 0 || RoomToGo >= 4) {
-        printf("Invalid door selection! Choose between 0 and 3.\n");
-        return;
+        printf("Invalid door selection! Choose between 1 and 4.\n");
+        return 0;
     }
 
     // Check if the door exists (not NULL)
     if (currentRoom->doors[RoomToGo] == NULL) {
         printf("There is no door in that direction!\n");
-        return;
+        return 0;
     }
 
     // Update player's current room
     adventurer->CurrentRoom = currentRoom->doors[RoomToGo];
     printf("You entered Room %d.\n", adventurer->CurrentRoom->RoomNumber);
+
+    if(adventurer->CurrentRoom->Isvisited == 0)
+    {
+        printf("You are entering room %i, with this content %i , What are you gonna find ???\n",adventurer->CurrentRoom->RoomNumber,adventurer->CurrentRoom->Content);
+        return Encounter(adventurer->CurrentRoom->Content,adventurer);
+    }else
+    {
+        printf("You have already been to this room Womp Womp, lets go to the next\n");
+        return 0;
+    }
+    // check if you visited this room 
+    // if 0 Go to encounter if 1 nothing happens.
 }
 
 #pragma region Dungeon Generation
@@ -82,12 +97,16 @@ DungeonRooms* CreateRooms(int amountOfRooms) {
         if (tempTreasure == 0 && i == amountOfRooms - 1) {
             Randnummer = 6; // Force treasure in last room if none yet
         } else if (tempTreasure == 0) {
-            Randnummer = rand() % 7; // 0-6 (6 = treasure)
+            Randnummer = 1 + rand() % 6; // 1-6 (6 = treasure)
         } else {
-            Randnummer = rand() % 6; // 0-5 (no treasure)
+            Randnummer = 1 + rand() % 5; // 1-5 (no treasure)
         }
 
+        if(i == 0){
+            Randnummer = 5;
+        }
         kamers[i].RoomNumber = i + 1;
+
         kamers[i].Content = Randnummer;
         
         // Initialize all doors to NULL
@@ -128,18 +147,23 @@ DungeonRooms* CreateRooms(int amountOfRooms) {
         }
     
 
+      
+    }
+
+    for (size_t j = 0; j < amountOfRooms; j++)
+    {
         // Safe print (check for NULL doors)
-        printf("Room %i, Content: %i, Connections: ", kamers[i].RoomNumber, kamers[i].Content);
+        printf("Room %i, Content: %i, Connections: ", kamers[j].RoomNumber, kamers[j].Content);
         for (int d = 0; d < 4; d++) {
-            if (kamers[i].doors[d] != NULL) {
-                printf("%d) %i ", d+1, kamers[i].doors[d]->RoomNumber);
+            if (kamers[j].doors[d] != NULL) {
+                printf("%d) %i ", d+1, kamers[j].doors[d]->RoomNumber);
             } else {
                 printf("%d) NULL ", d+1);
             }
         }
         printf("\n");
     }
-
+    
     return kamers;
 }
 
@@ -148,7 +172,7 @@ int CountConnections(DungeonRooms* room)
  {
     int count = 0;
     for (int d = 0; d < 4; d++) {
-        if (room->doors[d] != NULL) count++;
+        if (room->doors[d] != NULL) {count++;}
     }
     return count;
 }
