@@ -6,10 +6,10 @@
 #include "Dungeon.h"
 #include "print_Storage.c"
 
-DungeonRooms* CreateDungeon()
+DungeonRooms* CreateDungeon(int DungeonSize)
 {
-int DungeonSize;
-    DungeonSize = PrintGameStart();
+
+  
   // Create A dungeon based on the size given in the argument;
 switch (DungeonSize)
 {
@@ -178,6 +178,26 @@ int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b) {
         if (a->doors[d] == b) return 1;
     }
     return 0;
+}
+
+#pragma endregion
+
+#pragma region MemoryFreeing functions
+
+void FreePlayer(Player* player)
+{
+if(player != NULL){
+    free(player->CurrentRoom);
+    player->CurrentRoom = NULL;
+}
+}
+
+void FreeRooms(DungeonRooms* rooms, int amountOfRooms)
+{
+if(rooms != NULL){
+    free(rooms);
+}
+
 }
 
 #pragma endregion
