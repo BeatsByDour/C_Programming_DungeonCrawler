@@ -1,21 +1,35 @@
 // gcc main.c -o main.exe
 #include "DungeonCrawler.c"
-//#include "Encounter.c"
+#include "saveFunctions.c"
 #include <stdio.h>
 
 int main()
 {
-   int wincon = 0;
-   
+    int endGame = 0;
+    while (endGame == 0)
+    {
+        int SaveFileInfo = 0;
+        DungeonRooms* kamers;
+        Player Adventurer;
+        int wincon = 0;
+        int dungeonSize = 0;
 
-    printf("hello DungeonCrawler \n");
+       printf("Do you want to load a previous saveFile?\n\t (0) No\n\t (1) Yes\n");
+       scanf(" %i" ,&SaveFileInfo );
+       if(SaveFileInfo == 1)
+       {
+        load_game("saveFile.json",kamers, &Adventurer);
+       }else
+       {
+            
+        dungeonSize = PrintGameStart();
+        printf("hello DungeonCrawler \n");
+        kamers = CreateDungeon(dungeonSize);
+        Adventurer = InitilizePlayer(); 
+        Adventurer.CurrentRoom = &kamers[0];
+       }
 
-    DungeonRooms* kamers = CreateDungeon();
-    Player Adventurer = InitilizePlayer(); 
-    Adventurer.CurrentRoom = &kamers[0];
-   // DungeonRooms CurrentRoom = kamers[0];
-
-
+    // at the very start the player can choose to load a save file or start a new game. 
     // create player 
 while (wincon == 0)
 {
@@ -38,19 +52,36 @@ while (wincon == 0)
     scanf(" %i", &nextRoom -1);
     EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
     
-   // create while loop for player to go to the next dungeon
-
+    if(wincon == 0 && )
+    Printf("Well done Completing this room")
     // in the loop the player can choose to save/ load a save file or go to another room 
 
-    // while the player is in an another room it will fight or loot the room
-
-    // after the encounter is over the player will loop back to the choice to load/save or go to another room 
-
-    // if the player dies, free the memory of the dungeon and player and give a choice to restart or quit the game
-
-    // at the very start the player can choose to load a save file or start a new game. 
     getchar();
 }
+
+FreePlayer(&Adventurer);
+FreeRooms(kamers,dungeonSize);
+// free the memomry of the previous session
+
+int repeatAnswer = 0; 
+
+while (repeatAnswer == 1  && repeatAnswer == 2)
+{
+    printf("You lost the game!\n Do you want to play Again (1)\nDo you want to quit the game (2)");
+    scanf(" %i", &repeatAnswer);
+    if(repeatAnswer == 2)
+    {
+        endGame = 1;
+    } else if ( repeatAnswer =! 1)
+    {
+        printf("You entered an invalid answer in the prompt please enter 1 or 2 for answers!\n");
+    }
+}
+
+
+
+    }
+    
 
    
     return 0;
