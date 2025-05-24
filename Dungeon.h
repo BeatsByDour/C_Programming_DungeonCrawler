@@ -1,3 +1,10 @@
+#ifndef DUNGEON_H
+#define DUNGEON_H
+
+// struct definitions
+
+#pragma region structs
+
 typedef struct DungeonRooms
 {
  // number of this specific room   
@@ -18,14 +25,17 @@ typedef struct Player{
     struct DungeonRooms* CurrentRoom;
     }Player;
 
+    #pragma endregion
+
 // function definitions
 
+#pragma region DunguenGen
 
 /// @brief 
 /// @param RoomToGo 
 /// @param DungeonRooms 
 /// @param adventurer 
-void EnterNewRoom(int RoomToGo,DungeonRooms* DungeonRooms,Player* adventurer );
+int EnterNewRoom(int RoomToGo,DungeonRooms* DungeonRooms,Player* adventurer );
 /// @brief This fucntion initializes the player and give the player values
 /// @return it returns a player struct that is filled with correct values
 Player InitilizePlayer();
@@ -51,4 +61,34 @@ void ConnectRooms(DungeonRooms* a, DungeonRooms* b);
 int CountConnections(DungeonRooms* room);
 // struct creation
 
+#pragma endregion
 
+#pragma region  encounter 
+/// @brief 
+/// @param contentID 
+/// @param Adventurer 
+/// @return 
+int Encounter(int contentID, Player* Adventurer);
+/// @brief 
+/// @param enemyID 
+/// @param Adventurer 
+/// @return 
+int FightEncounter(int enemyID, Player* Adventurer);
+/// @brief 
+/// @param BuffId 
+/// @param Adventurer 
+void BuffEncounter(int BuffId, Player* Adventurer);
+/// @brief 
+/// @param hp 
+/// @param dmg 
+/// @param oppName 
+/// @param Adventurer 
+/// @return 
+int FightOppenent(int hp,int dmg, char oppName[10], Player* Adventurer);
+/// @brief 
+/// @return 
+int VictoryCondition();
+
+#pragma endregion
+
+#endif 

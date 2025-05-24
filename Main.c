@@ -1,10 +1,15 @@
 // gcc main.c -o main.exe
 #include "DungeonCrawler.c"
+<<<<<<< HEAD
 #include "saveFunctions.c"
+=======
+>>>>>>> dd9f2347bbbc8043439cd8fc4251142506f9b6ab
 #include <stdio.h>
 
+#define Clear() printf("\e[1;1H\e[2J")
 int main()
 {
+<<<<<<< HEAD
     int endGame = 0;
     while (endGame == 0)
     {
@@ -13,6 +18,18 @@ int main()
         Player Adventurer;
         int wincon = 0;
         int dungeonSize = 0;
+=======
+   int wincon = 0;
+   int loseCon = 0;
+   
+
+    printf("hello DungeonCrawler \n");
+
+    DungeonRooms* kamers = CreateDungeon();
+    Player Adventurer = InitilizePlayer(); 
+    Adventurer.CurrentRoom = &kamers[0];
+   // DungeonRooms CurrentRoom = kamers[0];
+>>>>>>> dd9f2347bbbc8043439cd8fc4251142506f9b6ab
 
        printf("Do you want to load a previous saveFile?\n\t (0) No\n\t (1) Yes\n");
        scanf(" %i" ,&SaveFileInfo );
@@ -31,11 +48,12 @@ int main()
 
     // at the very start the player can choose to load a save file or start a new game. 
     // create player 
-while (wincon == 0)
+while (wincon == 0 && loseCon == 0)
 {
-
-    int temp = CountConnections(Adventurer.CurrentRoom);
-    printf(" %i", temp);
+    Adventurer.CurrentRoom->Isvisited = 1;
+   // Clear();
+    printf("You have %i / %i HP\nYou Deal %i Damage\n You are in Room %i\n",Adventurer.currentHp,Adventurer.maxHp,Adventurer.damageValue,Adventurer.CurrentRoom->RoomNumber);
+    
     switch (CountConnections(Adventurer.CurrentRoom))
     {
     case 2:
@@ -49,8 +67,21 @@ while (wincon == 0)
         break;
     }
     int nextRoom = 0;
-    scanf(" %i", &nextRoom -1);
-    EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
+    int ConCheck = 0;
+    scanf(" %i", &nextRoom);
+    ConCheck = EnterNewRoom(nextRoom,Adventurer.CurrentRoom,&Adventurer);
+
+    switch (ConCheck)
+    {
+    case 1:
+       wincon =1;
+            break;
+    case 2:
+        loseCon = 1;
+            break;
+    default:
+        break;
+    }
     
     if(wincon == 0 && )
     Printf("Well done Completing this room")
@@ -59,6 +90,7 @@ while (wincon == 0)
     getchar();
 }
 
+<<<<<<< HEAD
 FreePlayer(&Adventurer);
 FreeRooms(kamers,dungeonSize);
 // free the memomry of the previous session
@@ -83,6 +115,16 @@ while (repeatAnswer == 1  && repeatAnswer == 2)
     }
     
 
+=======
+if(loseCon == 1)
+{
+    printf(" player died whewhewhe  womp womp unlucky\n");
+}
+if(wincon == 1)
+{
+    printf(" player lived to tell the tale Yippie\n");
+}
+>>>>>>> dd9f2347bbbc8043439cd8fc4251142506f9b6ab
    
     return 0;
 }
