@@ -182,13 +182,9 @@ int main(int argc, char* argv[]) {
         FreePlayer(&Adventurer);
         FreeRooms(kamers, actualDungeonSize);
 
-        // In auto mode, exit after one game
-        if (autoMode) {
-            endGame = 1;
-        } else {
             // Play again prompt
             int repeatAnswer = 0; 
-            printf("Game Over!\nDo you want to play Again? (1) Yes\n(2) No, quit the game\n");
+            printf("Game Over!\nDo you want to play Again?\n\t (1) Yes\n\t(2) No, quit the game\n");
             scanf(" %i", &repeatAnswer);
             
             while (repeatAnswer != 1 && repeatAnswer != 2) {
@@ -199,7 +195,6 @@ int main(int argc, char* argv[]) {
             if(repeatAnswer == 2) {
                 endGame = 1;
             }
-        }
     }
     return 0;
 }

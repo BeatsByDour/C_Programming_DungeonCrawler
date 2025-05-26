@@ -45,7 +45,7 @@ Player InitilizePlayer()
  InitPlayer.maxHp = 30;
  InitPlayer.currentHp = 30;
  InitPlayer.damageValue = 5;
- InitPlayer.CurrentRoom = (DungeonRooms*)calloc(1,sizeof(DungeonRooms));
+ InitPlayer.CurrentRoom = NULL;
  
  return InitPlayer;
     
@@ -209,23 +209,20 @@ int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b) {
 #pragma endregion
 
 #pragma region MemoryFreeing functions
-
-void FreePlayer(Player* player)
-{
-if(player != NULL){
-
-    free(player->CurrentRoom);
-    player->CurrentRoom = NULL;
+void FreePlayer(Player* player) {
+    if (player != NULL) {
+    // Player's CurrentRoom is just a pointer to a room in the main array
+    // We shouldn't free it here - it will be freed with FreeRooms
+    if (player != NULL) {
+        player->CurrentRoom = NULL;  // Just nullify, don't free
+    }
+    }
 }
+void FreeRooms(DungeonRooms* rooms, int amountOfRooms) {
+    if (rooms != NULL) {
+        // No need to nullify doors as we're freeing the entire structure
+        free(rooms);
+    }
 }
-
-void FreeRooms(DungeonRooms* rooms, int amountOfRooms)
-{
-if(rooms != NULL){
-    free(rooms);
-}
-
-}
-
 #pragma endregion
 
