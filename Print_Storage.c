@@ -13,7 +13,7 @@ void PrintRoomSize(int roomsSize)
 int  PrintGameStart()
 {
      int temp;
-    printf("Hello there adventurer, which Dungeon do you want to visit? \n1) The small cave \n2) The medium ravine \n3) The momentous dungeon \nWhich one will you choose ?\n ");
+    printf("Hello there adventurer, which Dungeon do you want to visit? \n\t1) The small cave \n\t2) The medium ravine \n\t3) The momentous dungeon \nWhich one will you choose ?\n ");
     scanf(" %i", &temp);
     return temp;
 }

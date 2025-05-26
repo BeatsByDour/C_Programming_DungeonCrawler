@@ -150,6 +150,8 @@ DungeonRooms* CreateRooms(int amountOfRooms) {
       
     }
 
+    /*
+    //function that shows whats in the rooms and how many rooms there are
     for (size_t j = 0; j < amountOfRooms; j++)
     {
         // Safe print (check for NULL doors)
@@ -163,7 +165,7 @@ DungeonRooms* CreateRooms(int amountOfRooms) {
         }
         printf("\n");
     }
-    
+    */
     return kamers;
 }
 
@@ -211,6 +213,7 @@ int AreRoomsConnected(DungeonRooms* a, DungeonRooms* b) {
 void FreePlayer(Player* player)
 {
 if(player != NULL){
+
     free(player->CurrentRoom);
     player->CurrentRoom = NULL;
 }

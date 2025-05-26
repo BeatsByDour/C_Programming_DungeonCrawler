@@ -1,12 +1,12 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <time.h>
 #include <stdlib.h>
 #include "Dungeon.h"
 
 int Encounter(int contentID, Player* Adventurer) 
 {
-
-   printf("I need to know what the conentID is so give it: %i\n",contentID);
+    sleep(5);
     switch (contentID)
     {
  
@@ -44,6 +44,7 @@ int Encounter(int contentID, Player* Adventurer)
 
 int FightEncounter(int enemyID, Player* Adventurer)
 {
+     sleep(3);
     srand(time(NULL));
 if(enemyID == 0)
 {
@@ -56,6 +57,7 @@ if(enemyID == 0)
 }
 void BuffEncounter(int BuffId, Player* Adventurer)
 {
+     sleep(3);
 if(BuffId == 0){
     printf("The alter Has regenerated your hp!!! Yippie\n");
     if(Adventurer->currentHp + 15 >= Adventurer->maxHp+5){
@@ -65,10 +67,11 @@ if(BuffId == 0){
         Adventurer->maxHp =+ 5;
         Adventurer->currentHp =+ 15;
     }
-
+    sleep(3);
 }else {
     printf("The alter Has given you more strength!!! Yippie\n");
    Adventurer->damageValue = Adventurer->damageValue + 2;
+    sleep(3);
 }
 }
 int VictoryCondition()
@@ -85,7 +88,7 @@ int VictoryCondition()
         unsigned int count = 0;
       
         while (RandNummer) {
-            sleep(1);
+            sleep(2);
             int oldcount = count;
             count += RandNummer & 1;
             RandNummer >>= 1;
@@ -94,23 +97,25 @@ int VictoryCondition()
             {
                
                 Adventurer->currentHp = Adventurer->currentHp - dmg;
-                printf("You got hit for %i damage and this is your remaining HP: %i\t\t ( %i )  \n",dmg,Adventurer->currentHp,RandNummer);
+                printf("\tYou got hit for %i damage and this is your remaining HP: %i\t\t ( %i )  \n",dmg,Adventurer->currentHp,0);
 
             }else{
                
                 hp = hp - Adventurer->damageValue;  
-                printf("You hit the %s for %i damage and this is their remaining HP: %i\t\t ( %i )  \n", oppName,Adventurer->damageValue,hp,RandNummer);
+                printf("\tYou hit the %s for %i damage and this is their remaining HP: %i\t\t ( %i )  \n", oppName,Adventurer->damageValue,hp,1);
             }
         }
         
     }
     if(Adventurer->currentHp <= 0 )
     {
+        sleep(3);
         printf("OOH NOO You DIED WOMP WOMP\n");
         return 2;
 
     }else
     {
+        sleep(3);
         printf("Well done Adventurer You WON, HeHe, on to the next room!!!\n");
         return 0;
     }
